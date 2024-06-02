@@ -63,6 +63,7 @@ class BallRoom(models.Model):
         ('Open bar', 'Open bar'),
         ('All inclusive', 'All inclusive'),
         ('Cofetarie/Patiserie', 'Cofetarie/Patiserie '),
+        ('Drum asfaltat', 'Drum asfaltat'),
     )
     catering_options = models.CharField(choices=catering)
     parking = (
