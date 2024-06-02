@@ -2,19 +2,16 @@ from django.db import models
 
 from multiselectfield import MultiSelectField
 
-class PlatformClient(models.Model):
-    '''Class to define a bastract structure for all platform clients'''
 
+
+
+
+
+class BallRoom(models.Model):
+    '''Class to construct a model for all ballrooms'''
     client_name = models.CharField(max_length=250)
     client_email = models.EmailField()
     client_phone_number = models.CharField(max_length=10)
-
-    class Meta:
-        abstract = True
-
-
-class BallRoom(PlatformClient):
-    '''Class to construct a model for all ballrooms'''
     events = (
         ('NUNTA','Nunta'),
         ('BOTEZ','Botez'),
