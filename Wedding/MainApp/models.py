@@ -1,6 +1,10 @@
 from django.db import models
 
-class Person(models.Model):
+class PlatformCLient(models.Model):
+    '''Class to define a bastract structure for all platform clients'''
 
-    name = models.CharField(max_length=23)
+    client_name = models.CharField(max_length=250)
+    client_email = models.EmailField()
+    client_phone_number = models.CharField(max_length=10)
+
 
