@@ -1,8 +1,19 @@
 from django.db import models
-from MainApp.models import PlatformCLient
+
 from multiselectfield import MultiSelectField
 
-class BallRoom(PlatformCLient):
+class PlatformClient(models.Model):
+    '''Class to define a bastract structure for all platform clients'''
+
+    client_name = models.CharField(max_length=250)
+    client_email = models.EmailField()
+    client_phone_number = models.CharField(max_length=10)
+
+    class Meta:
+        abstract = True
+
+
+class BallRoom(PlatformClient):
     '''Class to construct a model for all ballrooms'''
     events = (
         ('NUNTA','Nunta'),
@@ -12,7 +23,7 @@ class BallRoom(PlatformCLient):
     )
     minimum_guests_number = models.ImageField()
     maximum_guests_number = models.IntegerField()
-    type_of_events = MultiSelectField(choices=events)
+    type_of_events = models.CharField(choices=events)
     facillities = (
         ('Aer Conditionat', 'Aer Conditionat'),
         ('Sistem de sonorizare', 'Sistem de sonorizare'),
@@ -24,7 +35,7 @@ class BallRoom(PlatformCLient):
         ('Baie Separata', 'Baie Separata'),
         ('Prezidiu', 'Prezidiu')
     )
-    location_facilities = MultiSelectField(choices=facillities)
+    location_facilities = models.CharField(choices=facillities)
     catering = (
         ('Bucatarie proprie','Bucatarie proprie'),
         ('Servicii de catering incluse sau opționale', 'Servicii de catering incluse sau opționale'),
@@ -36,12 +47,12 @@ class BallRoom(PlatformCLient):
         ('Fruit Bar', 'Fruit Bar'),
         ('Cocktail Bar', 'Cocktail Bar')
     )
-    catering_options = MultiSelectField(choices=catering)
+    catering_options = models.CharField(choices=catering)
     parking = (
         ('Parcare gratuita', 'Parcare gratuita'),
         ('Parcare platita', 'Parcare platita')
     )
-    parking_options = MultiSelectField(choices=parking)
-    main_image = models.ImageField(upload_to=f'media/{self.name}')
+    parking_options = models.CharField(choices=parking)
+
 
 
