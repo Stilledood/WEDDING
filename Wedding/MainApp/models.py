@@ -7,4 +7,6 @@ class PlatformCLient(models.Model):
     client_email = models.EmailField()
     client_phone_number = models.CharField(max_length=10)
 
+    class Meta:
+        abstract = True
 
