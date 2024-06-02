@@ -37,11 +37,11 @@ class BallRoom(PlatformCLient):
         ('Cocktail Bar', 'Cocktail Bar')
     )
     catering_options = MultiSelectField(choices=catering)
-
     parking = (
         ('Parcare gratuita', 'Parcare gratuita'),
         ('Parcare platita', 'Parcare platita')
     )
     parking_options = MultiSelectField(choices=parking)
+    main_image = models.ImageField(upload_to=f'media/{self.name}')
 
 
