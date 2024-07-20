@@ -17,7 +17,7 @@ class BallRoom(models.Model):
         ('CORPORATE','Corporate'),
         ('ALTELE','Altele')
     )
-    minimum_guests_number = models.ImageField()
+    minimum_guests_number = models.IntegerField()
     maximum_guests_number = models.IntegerField()
     type_of_events = models.CharField(choices=events,default='')
     facillities = (
