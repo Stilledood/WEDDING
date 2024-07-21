@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 import os
+import mimetypes
+mimetypes.add_type("text/css", ".css", True)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -83,7 +85,7 @@ DATABASES = {
         'NAME': 'Wedding',
         'USER':'postgres',
 
-        'PASSWORD' : 'stilledood',
+        'PASSWORD' : '1qaz2wsx',
         'HOST':'localhost',
         'PORT':'5432',
 
@@ -130,7 +132,7 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR,'static'),
 ]
-STATIC_ROOT = 'staticfiles'
+STATIC_ROOT = 'static'
 MEDIA_URL='media/'
 MEDIA_ROOT=os.path.join(BASE_DIR,'media')
 
