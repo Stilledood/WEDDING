@@ -11,4 +11,6 @@ class AllSalons(View):
         context = {'ballrom_list':ballrooms}
         return render(request,self.template_name,context=context)
 
+def index(request):
+    return render(request, 'index.html')
 

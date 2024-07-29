@@ -1343,7 +1343,7 @@ footer.footer-no-gap {
 }
 
 footer {
-  margin-top: 150px;
+  margin-top: 50px;
   background-color: #1e1e1e;
   min-height: 100px;
 }
@@ -1404,7 +1404,9 @@ Page Header Style
   text-transform: uppercase;
   color: #fff;
 }
-
+.page-heading p{
+    color:#fff;
+}
 
 /* 
 ---------------------------------------------
