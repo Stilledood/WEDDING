@@ -1,7 +1,6 @@
 import os
 from django.db import models
 from django.contrib.auth.models import User
-from phonenumber_field.modelfields import PhoneNumberField
 from django.utils.deconstruct import deconstructible
 
 romanian_cities = {"Bucuresti": ["Bucharest", "Voluntari", "Rosu", "Fundeni"],
@@ -171,7 +170,7 @@ class Anunt(models.Model):
     county = models.CharField(choices=zip(romanian_cities.keys(), romanian_cities.keys()), default='Bucuresti')
     city = models.CharField(max_length=255, choices=city_choices, default='Bucuresti')
     adress = models.CharField(max_length=255, default='')
-    phone = PhoneNumberField()
+    phone = models.CharField(max_length=10)
     contact_email = models.EmailField()
     user_id = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
 

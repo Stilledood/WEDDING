@@ -84,7 +84,7 @@ DATABASES = {
         'NAME': 'Wedding',
         'USER':'postgres',
 
-        'PASSWORD' : '1qaz2wsx',
+        'PASSWORD' : 'stilledood',
         'HOST':'localhost',
         'PORT':'5432',
 
@@ -131,7 +131,7 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR,'static'),
 ]
-STATIC_ROOT = 'static'
+STATIC_ROOT = 'staticfiles'
 MEDIA_URL='media/'
 MEDIA_ROOT=os.path.join(BASE_DIR,'media')
 
