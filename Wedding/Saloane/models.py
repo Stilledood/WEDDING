@@ -1,6 +1,7 @@
 import os
 from django.db import models
 from django.contrib.auth.models import User
+from phonenumber_field.modelfields import PhoneNumberField
 from django.utils.deconstruct import deconstructible
 
 romanian_cities = {"Bucuresti": ["Bucharest", "Voluntari", "Rosu", "Fundeni"],
@@ -170,7 +171,7 @@ class Anunt(models.Model):
     county = models.CharField(choices=zip(romanian_cities.keys(), romanian_cities.keys()), default='Bucuresti')
     city = models.CharField(max_length=255, choices=city_choices, default='Bucuresti')
     adress = models.CharField(max_length=255, default='')
-    phone = models.CharField(max_length=10)
+    phone = PhoneNumberField()
     contact_email = models.EmailField()
     user_id = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
 
@@ -208,6 +209,67 @@ class AttributeSalon(models.Model):
 
     class Meta:
         db_table = 'attribute_salon'
+
+    def __str__(self):
+        return self.descriere
+
+
+class AttributeCoafor(models.Model):
+    id = models.AutoField(primary_key=True)
+    id_anunt = models.IntegerField()
+    descriere = models.TextField(blank=True)
+    type = models.CharField(max_length=255, default='')
+    image = models.FileField(upload_to=UploadToDirectory(), blank=True)
+
+    class Meta:
+        db_table = 'attribute_coafor'
+
+    def __str__(self):
+        return self.descriere
+
+
+class AttributeCatering(models.Model):
+    id = models.AutoField(primary_key=True)
+    id_anunt = models.IntegerField()
+    descriere = models.TextField(blank=True)
+
+    type_catering = (
+        ('Corporate', 'Corporate'),
+        ('Private', 'Private'),
+        ('Nunta', 'Nunta'),
+        ('Botez', 'Botez'),
+    )
+
+    type = models.CharField(max_length=255, choices=type_catering, default='')
+    image = models.FileField(upload_to=UploadToDirectory(), blank=True)
+
+    class Meta:
+        db_table = 'attribute_catering'
+
+    def __str__(self):
+        return self.descriere
+
+
+class AttributeFotograf(models.Model):
+    id = models.AutoField(primary_key=True)
+    id_anunt = models.IntegerField()
+    descriere = models.TextField(blank=True)
+    image = models.FileField(upload_to=UploadToDirectory(), blank=True)
+
+    class Meta:
+        db_table = 'attribute_fotograf'
+
+    def __str__(self):
+        return self.descriere
+
+
+class AttributeValet(models.Model):
+    id = models.AutoField(primary_key=True)
+    id_anunt = models.IntegerField()
+    descriere = models.TextField(blank=True)
+
+    class Meta:
+        db_table = 'attribute_valet'
 
     def __str__(self):
         return self.descriere
