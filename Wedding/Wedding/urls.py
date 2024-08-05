@@ -15,7 +15,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, re_path
 from django.views.generic import TemplateView
 from . import views
 
@@ -26,4 +26,5 @@ urlpatterns = [
     path('properties.html', TemplateView.as_view(template_name='properties.html'), name='properties'),
     path('property-details.html', TemplateView.as_view(template_name='property-details.html'), name='property-details'),
     path('contact.html', TemplateView.as_view(template_name='contact.html'), name='contact'),
+    re_path(r'^county/(?P<county>[a-zA-Z0-9_-]+)/$', views.county_detail, name='county_detail'),
 ]

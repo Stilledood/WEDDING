@@ -1,6 +1,6 @@
 from django import forms
 from .models import Anunt
-from .models import AttributeSalon
+from .models import AttributeSalon, AttributeCoafor, AttributeCatering, AttributeFotograf, AttributeValet
 
 
 class AnuntForm(forms.ModelForm):
@@ -69,7 +69,6 @@ class AttributeSalonForm(forms.ModelForm):
         widget=forms.CheckboxSelectMultiple,
     )
 
-
     zona_exterior = forms.MultipleChoiceField(
         choices=[
             ('Loc pentru fumat', 'Loc pentru fumat'),
@@ -108,14 +107,36 @@ class AttributeSalonForm(forms.ModelForm):
         widget=forms.CheckboxSelectMultiple,
     )
 
+    def clean(self):
+        cleaned_data = super().clean()
+        for field in ['type_events', 'facilities', 'catering', 'zona_exterior', 'parking', 'saftey']:
+            cleaned_data[field] = ','.join(cleaned_data.get(field, []))
+        return cleaned_data
 
-def clean(self):
-    cleaned_data = super().clean()
-    for field in ['type_events', 'facilities', 'catering', 'zona_exterior', 'parking', 'saftey']:
-        cleaned_data[field] = ','.join(cleaned_data.get(field, []))
-    return cleaned_data
+    class Meta:
+        model = AttributeSalon
+        fields = '__all__'
 
 
-class Meta:
-    model = AttributeSalon
-    fields = '__all__'
+class AttributeCoaforForm(forms.ModelForm):
+    class Meta:
+        model = AttributeCoafor
+        fields = '__all__'
+
+
+class AttributeCateringForm(forms.ModelForm):
+    class Meta:
+        model = AttributeCatering
+        fields = '__all__'
+
+
+class AttributeFotografForm(forms.ModelForm):
+    class Meta:
+        model = AttributeFotograf
+        fields = '__all__'
+
+
+class AttributeValetForm(forms.ModelForm):
+    class Meta:
+        model = AttributeValet
+        fields = '__all__'

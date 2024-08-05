@@ -2,8 +2,9 @@ from django.contrib import admin
 from .models import BallRoom
 from .models import Anunt
 from .forms import AnuntForm
-from .models import AttributeSalon
-from .forms import AttributeSalonForm
+from .models import AttributeSalon, AttributeCoafor, AttributeCatering, AttributeFotograf, AttributeValet
+from .forms import AttributeSalonForm, AttributeCoaforForm, AttributeCateringForm, AttributeFotografForm, \
+    AttributeValetForm
 
 admin.site.register(BallRoom)
 
@@ -27,4 +28,49 @@ class AttributeSalonAdmin(admin.ModelAdmin):
             obj.user_id = request.user
         super().save_model(request, obj, form, change)
 
+
 admin.site.register(AttributeSalon, AttributeSalonAdmin)
+
+
+class AttributeCoaforAdmin(admin.ModelAdmin):
+    form = AttributeCoaforForm
+
+    def save_model(self, request, obj, form, change):
+        obj.user = request.user
+        super().save_model(request, obj, form, change)
+
+
+admin.site.register(AttributeCoafor, AttributeCoaforAdmin)
+
+
+class AttributeCateringAdmin(admin.ModelAdmin):
+    form = AttributeCateringForm
+
+    def save_model(self, request, obj, form, change):
+        obj.user = request.user
+        super().save_model(request, obj, form, change)
+
+
+admin.site.register(AttributeCatering, AttributeCateringAdmin)
+
+
+class AttributeFotografAdmin(admin.ModelAdmin):
+    form = AttributeFotografForm
+
+    def save_model(self, request, obj, form, change):
+        obj.user = request.user
+        super().save_model(request, obj, form, change)
+
+
+admin.site.register(AttributeFotograf, AttributeFotografAdmin)
+
+
+class AttributeValetAdmin(admin.ModelAdmin):
+    form = AttributeValetForm
+
+    def save_model(self, request, obj, form, change):
+        obj.user = request.user
+        super().save_model(request, obj, form, change)
+
+
+admin.site.register(AttributeValet, AttributeValetAdmin)
