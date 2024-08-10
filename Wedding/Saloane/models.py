@@ -3,6 +3,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from phonenumber_field.modelfields import PhoneNumberField
 from django.utils.deconstruct import deconstructible
+from django.shortcuts import reverse,render,redirect
 
 romanian_cities = {"Bucuresti": ["Bucharest", "Voluntari", "Rosu", "Fundeni"],
                    "Cluj": ["Cluj-Napoca", "Floresti", "Turda", "Dej", "Campia Turzii", "Gherla", "Apahida", "Baciu"],
@@ -155,6 +156,18 @@ class BallRoom(models.Model):
     adress = models.CharField(max_length=255, default='')
 
 
+    def __str__(self):
+        return self.client_name
+
+    def get_absolute_url(self):
+        return reverse('saloon_details',kwargs={'id':self.pk})
+
+    def get_update_url(self):
+        return reverse('saloon_change',kwargs={'id':self.pk})
+
+
+
+
 class Anunt(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=250)
@@ -212,6 +225,8 @@ class AttributeSalon(models.Model):
 
     def __str__(self):
         return self.descriere
+
+
 
 
 class AttributeCoafor(models.Model):
