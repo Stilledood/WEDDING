@@ -1,6 +1,8 @@
 from django import forms
 from .models import Anunt
-from .models import AttributeSalon, AttributeCoafor, AttributeCatering, AttributeFotograf, AttributeValet
+from .models import AttributeSalon, AttributeCoafor, AttributeCatering, AttributeFotograf, AttributeValet, \
+    AttributeSalonImage
+from django.forms import inlineformset_factory
 
 
 class AnuntForm(forms.ModelForm):
@@ -12,10 +14,10 @@ class AnuntForm(forms.ModelForm):
 class AttributeSalonForm(forms.ModelForm):
     type_events = forms.MultipleChoiceField(
         choices=[
-            ('NUNTA', 'Nunta'),
-            ('BOTEZ', 'Botez'),
-            ('CORPORATE', 'Corporate'),
-            ('ALTELE', 'Altele')
+            ('Nunta', 'Nunta'),
+            ('Botez', 'Botez'),
+            ('Corporate', 'Corporate'),
+            ('Altele', 'Altele')
         ],
         widget=forms.CheckboxSelectMultiple,
     )
@@ -107,15 +109,41 @@ class AttributeSalonForm(forms.ModelForm):
         widget=forms.CheckboxSelectMultiple,
     )
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if self.instance.pk:
+            for field in ['type_events', 'facilities', 'catering', 'zona_exterior', 'parking', 'saftey']:
+                value = getattr(self.instance, field, '')
+                if isinstance(value, str):
+                    self.fields[field].initial = value.split(',')
+                else:
+                    self.fields[field].initial = value
+
     def clean(self):
         cleaned_data = super().clean()
         for field in ['type_events', 'facilities', 'catering', 'zona_exterior', 'parking', 'saftey']:
-            cleaned_data[field] = ','.join(cleaned_data.get(field, []))
+            if field in cleaned_data:
+                cleaned_data[field] = ','.join(cleaned_data.get(field, []))
         return cleaned_data
 
     class Meta:
         model = AttributeSalon
         fields = '__all__'
+
+
+class AttributeSalonImageForm(forms.ModelForm):
+    class Meta:
+        model = AttributeSalonImage
+        fields = ['image']
+
+
+AttributeSalonImageFormSet = inlineformset_factory(
+    AttributeSalon,
+    AttributeSalonImage,
+    form=AttributeSalonImageForm,
+    extra=1,
+    can_delete=True
+)
 
 
 class AttributeCoaforForm(forms.ModelForm):

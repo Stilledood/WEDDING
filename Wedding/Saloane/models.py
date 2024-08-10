@@ -3,7 +3,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from phonenumber_field.modelfields import PhoneNumberField
 from django.utils.deconstruct import deconstructible
-from django.shortcuts import reverse,render,redirect
+from django.shortcuts import reverse, render, redirect
 
 romanian_cities = {"Bucuresti": ["Bucharest", "Voluntari", "Rosu", "Fundeni"],
                    "Cluj": ["Cluj-Napoca", "Floresti", "Turda", "Dej", "Campia Turzii", "Gherla", "Apahida", "Baciu"],
@@ -155,17 +155,14 @@ class BallRoom(models.Model):
     city = models.CharField(max_length=255, choices=city_choices, default='Bucuresti')
     adress = models.CharField(max_length=255, default='')
 
-
     def __str__(self):
         return self.client_name
 
     def get_absolute_url(self):
-        return reverse('saloon_details',kwargs={'id':self.pk})
+        return reverse('saloon_details', kwargs={'id': self.pk})
 
     def get_update_url(self):
-        return reverse('saloon_change',kwargs={'id':self.pk})
-
-
+        return reverse('saloon_change', kwargs={'id': self.pk})
 
 
 class Anunt(models.Model):
@@ -192,14 +189,16 @@ class Anunt(models.Model):
         db_table = 'anunt'
 
     def __str__(self):
-        return self.name
+        return f"IDAnunt - {self.id}"
 
 
 @deconstructible
 class UploadToDirectory:
     def __call__(self, instance, filename):
         # Construct the directory path based on id_anunt
-        dir_name = f"anunt_images/{instance.id_anunt}/"
+        # dir_name = f"anunt_images/{instance.id_anunt.id}/"
+        anunt_instance = instance.attribute_salon
+        dir_name = f"anunt_images/{anunt_instance.id_anunt.id}/"
         # Create the directory if it doesn't exist
         if not os.path.exists(dir_name):
             os.makedirs(dir_name)
@@ -208,30 +207,35 @@ class UploadToDirectory:
 
 class AttributeSalon(models.Model):
     id = models.AutoField(primary_key=True)
-    id_anunt = models.IntegerField()
+    id_anunt = models.ForeignKey(Anunt, on_delete=models.CASCADE)
     min_guests = models.IntegerField()
     max_guests = models.IntegerField()
-    type_events = models.TextField(blank=True)
-    facilities = models.TextField(blank=True)
-    catering = models.TextField(blank=True)
-    zona_exterior = models.TextField(blank=True)
-    parking = models.TextField(blank=True)
-    saftey = models.TextField(blank=True)
+    type_events = models.CharField(max_length=255, blank=True)
+    facilities = models.CharField(max_length=255, blank=True)
+    catering = models.CharField(max_length=255, blank=True)
+    zona_exterior = models.CharField(max_length=255, blank=True)
+    parking = models.CharField(max_length=255, blank=True)
+    saftey = models.CharField(max_length=255, blank=True)
     descriere = models.TextField(blank=True)
-    image = models.FileField(upload_to=UploadToDirectory(), blank=True)
 
     class Meta:
         db_table = 'attribute_salon'
 
     def __str__(self):
-        return self.descriere
+        return f"IDAnunt - {self.id_anunt}"
 
 
+class AttributeSalonImage(models.Model):
+    attribute_salon = models.ForeignKey(AttributeSalon, related_name='images', on_delete=models.CASCADE)
+    image = models.ImageField(upload_to=UploadToDirectory(), blank=True)
+
+    class Meta:
+        db_table = 'attribute_salon_image'
 
 
 class AttributeCoafor(models.Model):
     id = models.AutoField(primary_key=True)
-    id_anunt = models.IntegerField()
+    id_anunt = models.ForeignKey(Anunt, on_delete=models.CASCADE)
     descriere = models.TextField(blank=True)
     type = models.CharField(max_length=255, default='')
     image = models.FileField(upload_to=UploadToDirectory(), blank=True)
@@ -240,12 +244,12 @@ class AttributeCoafor(models.Model):
         db_table = 'attribute_coafor'
 
     def __str__(self):
-        return self.descriere
+        return f"IDAnunt - {self.id_anunt}"
 
 
 class AttributeCatering(models.Model):
     id = models.AutoField(primary_key=True)
-    id_anunt = models.IntegerField()
+    id_anunt = models.ForeignKey(Anunt, on_delete=models.CASCADE)
     descriere = models.TextField(blank=True)
 
     type_catering = (
@@ -262,12 +266,12 @@ class AttributeCatering(models.Model):
         db_table = 'attribute_catering'
 
     def __str__(self):
-        return self.descriere
+        return f"IDAnunt - {self.id_anunt}"
 
 
 class AttributeFotograf(models.Model):
     id = models.AutoField(primary_key=True)
-    id_anunt = models.IntegerField()
+    id_anunt = models.ForeignKey(Anunt, on_delete=models.CASCADE)
     descriere = models.TextField(blank=True)
     image = models.FileField(upload_to=UploadToDirectory(), blank=True)
 
@@ -275,16 +279,16 @@ class AttributeFotograf(models.Model):
         db_table = 'attribute_fotograf'
 
     def __str__(self):
-        return self.descriere
+        return f"IDAnunt - {self.id_anunt}"
 
 
 class AttributeValet(models.Model):
     id = models.AutoField(primary_key=True)
-    id_anunt = models.IntegerField()
+    id_anunt = models.ForeignKey(Anunt, on_delete=models.CASCADE)
     descriere = models.TextField(blank=True)
 
     class Meta:
         db_table = 'attribute_valet'
 
     def __str__(self):
-        return self.descriere
+        return f"IDAnunt - {self.id_anunt}"

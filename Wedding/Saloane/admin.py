@@ -2,9 +2,10 @@ from django.contrib import admin
 from .models import BallRoom
 from .models import Anunt
 from .forms import AnuntForm
-from .models import AttributeSalon, AttributeCoafor, AttributeCatering, AttributeFotograf, AttributeValet
+from .models import AttributeSalon, AttributeCoafor, AttributeCatering, AttributeFotograf, AttributeValet, \
+    AttributeSalonImage
 from .forms import AttributeSalonForm, AttributeCoaforForm, AttributeCateringForm, AttributeFotografForm, \
-    AttributeValetForm
+    AttributeValetForm, AttributeSalonImageFormSet
 
 admin.site.register(BallRoom)
 
@@ -20,8 +21,19 @@ class AnuntAdmin(admin.ModelAdmin):
 admin.site.register(Anunt, AnuntAdmin)
 
 
+class AttributeSalonImageInline(admin.TabularInline):
+    model = AttributeSalonImage
+    formset = AttributeSalonImageFormSet
+    extra = 1  # Number of forms to show
+
+
 class AttributeSalonAdmin(admin.ModelAdmin):
     form = AttributeSalonForm
+    inlines = [AttributeSalonImageInline]
+    list_display = ('id_anunt', 'min_guests', 'max_guests', 'type_events')
+    list_filter = ('id_anunt',)
+
+    change_form_template = 'admin/Saloane/attributesalon/change_form.html'
 
     def save_model(self, request, obj, form, change):
         if not obj.pk:  # Only set the user_id during the first save.
