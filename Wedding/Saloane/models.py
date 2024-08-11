@@ -3,7 +3,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from phonenumber_field.modelfields import PhoneNumberField
 from django.utils.deconstruct import deconstructible
-from django.shortcuts import reverse, render, redirect
+from django.shortcuts import reverse,render,redirect
+from multiselectfield import MultiSelectField
 
 romanian_cities = {"Bucuresti": ["Bucharest", "Voluntari", "Rosu", "Fundeni"],
                    "Cluj": ["Cluj-Napoca", "Floresti", "Turda", "Dej", "Campia Turzii", "Gherla", "Apahida", "Baciu"],
@@ -76,7 +77,7 @@ class BallRoom(models.Model):
     )
     minimum_guests_number = models.IntegerField()
     maximum_guests_number = models.IntegerField()
-    type_of_events = models.CharField(choices=events, default='')
+    type_of_events = MultiSelectField(choices=events, default='')
     facillities = (
         ('Aer Conditionat', 'Aer Conditionat'),
         ('Sistem de sonorizare', 'Sistem de sonorizare'),
@@ -103,7 +104,7 @@ class BallRoom(models.Model):
         ('Numere pentru mese', 'Numere pentru mese'),
         ('Loc de relaxare', 'Loc de relaxare '),
     )
-    location_facilities = models.CharField(choices=facillities, default='')
+    location_facilities = MultiSelectField(choices=facillities, default='')
     catering = (
         ('Bucatarie proprie', 'Bucatarie proprie'),
         ('Servicii de catering incluse sau opționale', 'Servicii de catering incluse sau opționale'),
@@ -120,14 +121,14 @@ class BallRoom(models.Model):
         ('Cofetarie/Patiserie', 'Cofetarie/Patiserie '),
         ('Drum asfaltat', 'Drum asfaltat'),
     )
-    catering_options = models.CharField(choices=catering, default='')
+    catering_options = MultiSelectField(choices=catering, default='')
     parking = (
         ('Parcare gratuita', 'Parcare gratuita'),
         ('Parcare platita', 'Parcare platita'),
         ('Supreaveghere video', 'Supraveghere video'),
         ('Parcare iluminata', 'Parcare iluminata'),
     )
-    parking_options = models.CharField(choices=parking, default='')
+    parking_options = MultiSelectField(choices=parking, default='')
     zona_exterioara = (
         ('Loc pentru fumat', 'Loc pentru fumat'),
         ('Terasa acoperita', 'Terasa acoperita'),
@@ -139,7 +140,7 @@ class BallRoom(models.Model):
         ('Loc de joaca', 'Loc de joaca'),
         ('Gradina amenajata pentru cereemonie', 'Gradina amenajata pentru ceremonie'),
     )
-    zona_exterioara_options = models.CharField(choices=zona_exterioara, default='')
+    zona_exterioara_options = MultiSelectField(choices=zona_exterioara, default='')
 
     siguranta = (
         ('Alarma incendiu', 'Alarma incendiu'),
@@ -150,19 +151,23 @@ class BallRoom(models.Model):
         ('Serviciu de paza', 'Serviciu de paza'),
         ('Kit de prim ajutor', 'Kit de priim ajutor'),
     )
-    siguranta_options = models.CharField(choices=siguranta, default='')
+    siguranta_options = MultiSelectField(choices=siguranta, default='')
     county = models.CharField(choices=zip(romanian_cities.keys(), romanian_cities.keys()), default='Bucuresti')
     city = models.CharField(max_length=255, choices=city_choices, default='Bucuresti')
     adress = models.CharField(max_length=255, default='')
+    descriere = models.TextField(default='Descriere')
+
 
     def __str__(self):
         return self.client_name
 
     def get_absolute_url(self):
-        return reverse('saloon_details', kwargs={'id': self.pk})
+        return reverse('saloon_details',kwargs={'id':self.pk})
 
     def get_update_url(self):
-        return reverse('saloon_change', kwargs={'id': self.pk})
+        return reverse('saloon_change',kwargs={'id':self.pk})
+
+
 
 
 class Anunt(models.Model):
@@ -189,16 +194,14 @@ class Anunt(models.Model):
         db_table = 'anunt'
 
     def __str__(self):
-        return f"IDAnunt - {self.id}"
+        return self.name
 
 
 @deconstructible
 class UploadToDirectory:
     def __call__(self, instance, filename):
         # Construct the directory path based on id_anunt
-        # dir_name = f"anunt_images/{instance.id_anunt.id}/"
-        anunt_instance = instance.attribute_salon
-        dir_name = f"anunt_images/{anunt_instance.id_anunt.id}/"
+        dir_name = f"anunt_images/{instance.id_anunt}/"
         # Create the directory if it doesn't exist
         if not os.path.exists(dir_name):
             os.makedirs(dir_name)
@@ -207,35 +210,30 @@ class UploadToDirectory:
 
 class AttributeSalon(models.Model):
     id = models.AutoField(primary_key=True)
-    id_anunt = models.ForeignKey(Anunt, on_delete=models.CASCADE)
+    id_anunt = models.IntegerField()
     min_guests = models.IntegerField()
     max_guests = models.IntegerField()
-    type_events = models.CharField(max_length=255, blank=True)
-    facilities = models.CharField(max_length=255, blank=True)
-    catering = models.CharField(max_length=255, blank=True)
-    zona_exterior = models.CharField(max_length=255, blank=True)
-    parking = models.CharField(max_length=255, blank=True)
-    saftey = models.CharField(max_length=255, blank=True)
+    type_events = models.TextField(blank=True)
+    facilities = models.TextField(blank=True)
+    catering = models.TextField(blank=True)
+    zona_exterior = models.TextField(blank=True)
+    parking = models.TextField(blank=True)
+    saftey = models.TextField(blank=True)
     descriere = models.TextField(blank=True)
+    image = models.FileField(upload_to=UploadToDirectory(), blank=True)
 
     class Meta:
         db_table = 'attribute_salon'
 
     def __str__(self):
-        return f"IDAnunt - {self.id_anunt}"
+        return self.descriere
 
 
-class AttributeSalonImage(models.Model):
-    attribute_salon = models.ForeignKey(AttributeSalon, related_name='images', on_delete=models.CASCADE)
-    image = models.ImageField(upload_to=UploadToDirectory(), blank=True)
-
-    class Meta:
-        db_table = 'attribute_salon_image'
 
 
 class AttributeCoafor(models.Model):
     id = models.AutoField(primary_key=True)
-    id_anunt = models.ForeignKey(Anunt, on_delete=models.CASCADE)
+    id_anunt = models.IntegerField()
     descriere = models.TextField(blank=True)
     type = models.CharField(max_length=255, default='')
     image = models.FileField(upload_to=UploadToDirectory(), blank=True)
@@ -244,12 +242,12 @@ class AttributeCoafor(models.Model):
         db_table = 'attribute_coafor'
 
     def __str__(self):
-        return f"IDAnunt - {self.id_anunt}"
+        return self.descriere
 
 
 class AttributeCatering(models.Model):
     id = models.AutoField(primary_key=True)
-    id_anunt = models.ForeignKey(Anunt, on_delete=models.CASCADE)
+    id_anunt = models.IntegerField()
     descriere = models.TextField(blank=True)
 
     type_catering = (
@@ -266,12 +264,12 @@ class AttributeCatering(models.Model):
         db_table = 'attribute_catering'
 
     def __str__(self):
-        return f"IDAnunt - {self.id_anunt}"
+        return self.descriere
 
 
 class AttributeFotograf(models.Model):
     id = models.AutoField(primary_key=True)
-    id_anunt = models.ForeignKey(Anunt, on_delete=models.CASCADE)
+    id_anunt = models.IntegerField()
     descriere = models.TextField(blank=True)
     image = models.FileField(upload_to=UploadToDirectory(), blank=True)
 
@@ -279,16 +277,16 @@ class AttributeFotograf(models.Model):
         db_table = 'attribute_fotograf'
 
     def __str__(self):
-        return f"IDAnunt - {self.id_anunt}"
+        return self.descriere
 
 
 class AttributeValet(models.Model):
     id = models.AutoField(primary_key=True)
-    id_anunt = models.ForeignKey(Anunt, on_delete=models.CASCADE)
+    id_anunt = models.IntegerField()
     descriere = models.TextField(blank=True)
 
     class Meta:
         db_table = 'attribute_valet'
 
     def __str__(self):
-        return f"IDAnunt - {self.id_anunt}"
+        return self.descriere
