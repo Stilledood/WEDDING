@@ -33,8 +33,6 @@ class AttributeSalonAdmin(admin.ModelAdmin):
     list_display = ('id_anunt', 'min_guests', 'max_guests', 'type_events')
     list_filter = ('id_anunt',)
 
-    change_form_template = 'admin/Saloane/attributesalon/change_form.html'
-
     def save_model(self, request, obj, form, change):
         if not obj.pk:  # Only set the user_id during the first save.
             obj.user_id = request.user

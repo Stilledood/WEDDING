@@ -116,6 +116,7 @@ class AttributeSalonForm(forms.ModelForm):
                 value = getattr(self.instance, field, '')
                 if isinstance(value, str):
                     self.fields[field].initial = value.split(',')
+                    print(f"Type Events Initial: {self.fields['type_events'].initial}")
                 else:
                     self.fields[field].initial = value
 
