@@ -1,6 +1,6 @@
 from django.shortcuts import render,get_object_or_404
 from django.views import View
-from .models import BallRoom,Formation
+from .models import BallRoom
 
 class AllSalons(View):
     template_name = 'Saloane/all_ballroms/html'

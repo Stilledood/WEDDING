@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     # User app
     'MainApp',
     'Saloane',
+    'Music',
 ]
 
 MIDDLEWARE = [
