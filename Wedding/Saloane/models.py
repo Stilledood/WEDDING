@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from phonenumber_field.modelfields import PhoneNumberField
 from django.utils.deconstruct import deconstructible
 from django.shortcuts import reverse,render,redirect
+from multiselectfield import MultiSelectField
 
 romanian_cities = {"Bucuresti": ["Bucharest", "Voluntari", "Rosu", "Fundeni"],
                    "Cluj": ["Cluj-Napoca", "Floresti", "Turda", "Dej", "Campia Turzii", "Gherla", "Apahida", "Baciu"],
@@ -76,7 +77,7 @@ class BallRoom(models.Model):
     )
     minimum_guests_number = models.IntegerField()
     maximum_guests_number = models.IntegerField()
-    type_of_events = models.CharField(choices=events, default='')
+    type_of_events = MultiSelectField(choices=events, default='')
     facillities = (
         ('Aer Conditionat', 'Aer Conditionat'),
         ('Sistem de sonorizare', 'Sistem de sonorizare'),
@@ -103,7 +104,7 @@ class BallRoom(models.Model):
         ('Numere pentru mese', 'Numere pentru mese'),
         ('Loc de relaxare', 'Loc de relaxare '),
     )
-    location_facilities = models.CharField(choices=facillities, default='')
+    location_facilities = MultiSelectField(choices=facillities, default='')
     catering = (
         ('Bucatarie proprie', 'Bucatarie proprie'),
         ('Servicii de catering incluse sau opționale', 'Servicii de catering incluse sau opționale'),
@@ -120,14 +121,14 @@ class BallRoom(models.Model):
         ('Cofetarie/Patiserie', 'Cofetarie/Patiserie '),
         ('Drum asfaltat', 'Drum asfaltat'),
     )
-    catering_options = models.CharField(choices=catering, default='')
+    catering_options = MultiSelectField(choices=catering, default='')
     parking = (
         ('Parcare gratuita', 'Parcare gratuita'),
         ('Parcare platita', 'Parcare platita'),
         ('Supreaveghere video', 'Supraveghere video'),
         ('Parcare iluminata', 'Parcare iluminata'),
     )
-    parking_options = models.CharField(choices=parking, default='')
+    parking_options = MultiSelectField(choices=parking, default='')
     zona_exterioara = (
         ('Loc pentru fumat', 'Loc pentru fumat'),
         ('Terasa acoperita', 'Terasa acoperita'),
@@ -139,7 +140,7 @@ class BallRoom(models.Model):
         ('Loc de joaca', 'Loc de joaca'),
         ('Gradina amenajata pentru cereemonie', 'Gradina amenajata pentru ceremonie'),
     )
-    zona_exterioara_options = models.CharField(choices=zona_exterioara, default='')
+    zona_exterioara_options = MultiSelectField(choices=zona_exterioara, default='')
 
     siguranta = (
         ('Alarma incendiu', 'Alarma incendiu'),
@@ -150,7 +151,7 @@ class BallRoom(models.Model):
         ('Serviciu de paza', 'Serviciu de paza'),
         ('Kit de prim ajutor', 'Kit de priim ajutor'),
     )
-    siguranta_options = models.CharField(choices=siguranta, default='')
+    siguranta_options = MultiSelectField(choices=siguranta, default='')
     county = models.CharField(choices=zip(romanian_cities.keys(), romanian_cities.keys()), default='Bucuresti')
     city = models.CharField(max_length=255, choices=city_choices, default='Bucuresti')
     adress = models.CharField(max_length=255, default='')
