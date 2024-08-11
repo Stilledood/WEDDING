@@ -169,6 +169,30 @@ class BallRoom(models.Model):
 
 
 
+class Formation(models.Model):
+    '''Class to create a model for all music part'''
+
+
+    formation_type = (
+        ('Formatie','Formatie'),
+        ('DJ','DJ')
+    )
+
+    tip = models.Choices(choices=formation_type,default='')
+    name = models.CharField(max_length=200,default='')
+    phone_number = models.CharField(max_length=10)
+    email = models.EmailField()
+    county = models.CharField(choices=zip(romanian_cities.keys(), romanian_cities.keys()), default='Bucuresti')
+    city = models.CharField(max_length=255, choices=city_choices, default='Bucuresti')
+
+    def __str__(self):
+        return self.name
+
+    def get_absolute_url(self):
+        return reverse('detalii_muzica',kwargs={'id':self.pk})
+
+    def get_update_url(self):
+        return reverse('update_muzica',kwargs={'id':self.pk})
 
 class Anunt(models.Model):
     id = models.AutoField(primary_key=True)
