@@ -154,6 +154,7 @@ class BallRoom(models.Model):
     county = models.CharField(choices=zip(romanian_cities.keys(), romanian_cities.keys()), default='Bucuresti')
     city = models.CharField(max_length=255, choices=city_choices, default='Bucuresti')
     adress = models.CharField(max_length=255, default='')
+    descriere = models.TextField(default='Descriere')
 
 
     def __str__(self):

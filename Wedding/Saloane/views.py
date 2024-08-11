@@ -15,7 +15,7 @@ class SaloonDetails(View):
     '''Class to construct a view to display a saloon details'''
 
     model_name = BallRoom
-    template_name = 'Saloane/saloon_details.html'
+    template_name = 'saloon_details.html'
     def get(self,request,pk):
         saloon = get_object_or_404(self.model_name,pk=pk)
         context = {'saloon':saloon}
