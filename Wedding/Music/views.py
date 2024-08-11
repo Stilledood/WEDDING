@@ -9,7 +9,7 @@ class AllFormations(View):
     template_name = 'formation_list.html'
     model_name = Formation
 
-    def get(self,request):
+    def get(self,request,county):
         all_formations = self.model_name.objects.all()
         context = {'formations':all_formations}
         return render(request,self.template_name,context=context)
