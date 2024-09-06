@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'Saloane',
     'Music',
     'Catering',
+    'FotoVideo',
 ]
 
 MIDDLEWARE = [
