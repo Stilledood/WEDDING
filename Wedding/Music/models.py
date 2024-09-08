@@ -73,6 +73,19 @@ class Formation(models.Model):
         ('DJ','DJ')
     )
 
+    musical_styles = (
+        ('Clasic','Clasic'),
+        ('Disco','Disco'),
+        ('Folclor','Folclor'),
+        ('Hip-Hop','Hip=Hop'),
+        ('Instrumental','Instrumental'),
+        ('Jazz','Jazz'),
+        ('Latino','Latino'),
+        ('Pop','Pop'),
+        ('Rock','Rock'),
+    )
+
+    muscial_styles_field = MultiSelectField(choices=musical_styles,default='')
     tip = models.CharField(choices=formation_type,default='')
     name = models.CharField(max_length=200,default='')
     phone_number = models.CharField(max_length=10)
