@@ -3,8 +3,9 @@ from django.views import View
 from .models import BallRoom
 
 class AllSalons(View):
-    template_name = 'Saloane/all_ballroms/html'
+    template_name = 'Saloane/all_ballroms.html'
     model = BallRoom
+    
 
     def get(self,request,county):
         ballrooms = self.model.objects.filter(county=county)
