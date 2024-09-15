@@ -30,7 +30,7 @@ class BallRoom(CLientDetails):
         ('Decor mese', 'Decor mese'),
         ('Wifi', 'Wifi'),
         ('Decor scaune', 'Decor scaune'),
-        ('Meniuri pentru meese', 'Meniuri pentru mese'),
+        ('Meniuri pentru mese', 'Meniuri pentru mese'),
         ('Vedere panoramica', 'Vedere panoramica'),
         ('Proximitea centrului orasului', 'Proximitatea centrului orasului'),
         ('Foto corner', 'Foto corner'),

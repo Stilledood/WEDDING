@@ -1,9 +1,10 @@
 from django.db import models
 from django.shortcuts import render,reverse, redirect
 from multiselectfield import MultiSelectField
+from ..MainApp.models import CLientDetails
 
 
-class Cofetarie(models.Model):
+class Cofetarie(CLientDetails):
     '''Class to define a model for all pastryshops'''
 
     name = models.CharField(max_length=200)
@@ -31,7 +32,7 @@ class Cofetarie(models.Model):
 
 
 
-class Catering(models.Model):
+class Catering(CLientDetails):
     '''Class to define a model for food catering clients'''
 
     name = models.CharField(max_length=200)

@@ -1,9 +1,10 @@
 from django.db import models
 from django.shortcuts import  redirect,reverse
 from multiselectfield import MultiSelectField
+from ..MainApp.models import CLientDetails
 
 
-class MakeUpSaloon(models.Model):
+class MakeUpSaloon(CLientDetails):
     '''Class to construct a model for makeup saloons'''
 
     name = models.CharField(max_length=200)

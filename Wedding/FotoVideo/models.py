@@ -1,9 +1,9 @@
 from django.db import models
 from django.shortcuts import reverse,redirect
 from multiselectfield import MultiSelectField
+from ..MainApp.models import CLientDetails
 
-
-class FotoVideo(models.Model):
+class FotoVideo(CLientDetails):
     '''Class to construct a model for photographers and videographers'''
 
     name = models.CharField(max_length=200)
