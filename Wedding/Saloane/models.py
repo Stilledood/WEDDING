@@ -13,15 +13,10 @@ from ..MainApp.models import CLientDetails
 class BallRoom(CLientDetails):
     """Class to construct a model for all ballrooms"""
 
-    events = (
-        ('NUNTA', 'Nunta'),
-        ('BOTEZ', 'Botez'),
-        ('CORPORATE', 'Corporate'),
-        ('ALTELE', 'Altele')
-    )
+
     minimum_guests_number = models.IntegerField()
     maximum_guests_number = models.IntegerField()
-    type_of_events = MultiSelectField(choices=events, default='')
+
     facillities = (
         ('Aer Conditionat', 'Aer Conditionat'),
         ('Sistem de sonorizare', 'Sistem de sonorizare'),

@@ -1,4 +1,8 @@
 from django.db import models
+from multiselectfield import MultiSelectField
+
+
+
 romanian_cities = {"Bucuresti": ["Bucharest", "Voluntari", "Rosu", "Fundeni"],
                    "Cluj": ["Cluj-Napoca", "Floresti", "Turda", "Dej", "Campia Turzii", "Gherla", "Apahida", "Baciu"],
                    "Iasi": ["Iasi", "Pascani", "Valea Lupului", "Valea Adanca", "Lunca Cetatuii", "Harlau",
@@ -70,3 +74,9 @@ class CLientDetails(models.Model):
     client_county = models.CharField(choices=zip(romanian_cities.keys(), romanian_cities.keys()), default='Bucuresti')
     client_city = models.CharField(max_length=255, choices=city_choices, default='Bucuresti')
     client_description = models.TextField()
+    events = (
+        ('EVENIMENTE FESTIVE', 'Evenimente Festive'),
+        ('EVENIMENTE CORPORATE', 'Evenimente Corporate'),
+        ('PETRECERI PRIVATE', 'Petreceri Private')
+    )
+    client_events = MultiSelectField(choices=events, default='')
