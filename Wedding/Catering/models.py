@@ -7,10 +7,6 @@ from ..MainApp.models import CLientDetails
 class Cofetarie(CLientDetails):
     '''Class to define a model for all pastryshops'''
 
-    name = models.CharField(max_length=200)
-    email = models.EmailField()
-    adress = models.CharField(max_length=200)
-    phone = models.CharField(max_length=10)
     meniu = models.FileField(upload_to='pdf-menus')
     servicii = (
         ('Candy Bar','Candy Bar'),
@@ -19,10 +15,7 @@ class Cofetarie(CLientDetails):
 
     )
     servicii_cofetarie = MultiSelectField(choices=servicii,default='')
-    instagram_page = models.URLField()
-    tik_tok_page = models.URLField()
-    facebook_page = models.URLField()
-    website_page = models.URLField()
+
 
     def __str__(self):
         return self.name
@@ -35,15 +28,9 @@ class Cofetarie(CLientDetails):
 class Catering(CLientDetails):
     '''Class to define a model for food catering clients'''
 
-    name = models.CharField(max_length=200)
-    email = models.EmailField()
-    adress = models.CharField(max_length=200)
-    phone = models.CharField(max_length=10)
+
     meniu = models.FileField(upload_to='pdf-menus')
-    instagram_page = models.URLField()
-    tik_tok_page = models.URLField()
-    facebook_page = models.URLField()
-    website_page = models.URLField()
+
 
     servicii = (
         ('Bar si bauturi', 'Bar si bauturi'),
