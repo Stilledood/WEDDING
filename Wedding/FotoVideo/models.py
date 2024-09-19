@@ -3,6 +3,7 @@ from django.shortcuts import reverse,redirect
 from multiselectfield import MultiSelectField
 from ..MainApp.models import CLientDetails
 
+
 class FotoVideo(CLientDetails):
     '''Class to construct a model for photographers and videographers'''
 
@@ -24,7 +25,7 @@ class FotoVideo(CLientDetails):
     )
 
     def __str__(self):
-        return self.name
+        return self.client_name
 
     def get_absolute_url(self):
         return reverse('fotovideo_details',kwargs={'pk':self.pk})

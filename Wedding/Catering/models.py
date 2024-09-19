@@ -18,7 +18,7 @@ class Cofetarie(CLientDetails):
 
 
     def __str__(self):
-        return self.name
+        return self.client_name
 
     def get_absolute_url(self):
         return reverse('cofetarie_details',kwargs={'pk':self.pk})
@@ -46,7 +46,7 @@ class Catering(CLientDetails):
     servicii_catering = MultiSelectField(choices=servicii,default='')
 
     def __str__(self):
-        return self.name
+        return self.client_name
 
     def get_absolute_url(self):
         return reverse('catering_details',kwargs={'pk':self.pk})

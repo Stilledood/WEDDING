@@ -17,11 +17,12 @@ class MakeUpSaloon(CLientDetails):
 
 
     def __str__(self):
-        return self.name
+        return self.client_name
 
     def get_absolute_url(self):
         return reverse('makeup_details',kwargs={'pk':self.pk})
 
     def get_update_url(self):
         return reverse('makeup_update',kwargs={'pk':self.pk})
+
 
