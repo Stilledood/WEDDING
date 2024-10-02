@@ -2,8 +2,25 @@ from django.shortcuts import render,get_object_or_404
 from django.views import View
 from .models import BallRoom
 
-class AllSalons(View):
-    template_name = 'Saloane/all_ballroms.html'
+
+class AllSaloons(View):
+    '''Class to display all saloons '''
+
+    template_name = 'all_saloons.html'
+    model_name = BallRoom
+
+    def get(self,request):
+        all_saloons = self.model_name.objects.all()
+        context={
+            'all_salons':all_saloons
+        }
+        return render(request,template_name=self.template_name,context=context)
+
+
+class AllSalonsByCounty(View):
+    '''Class to display all saloons filtered by county'''
+
+    template_name = 'Saloane/all_ballroms_county.html'
     model = BallRoom
     
 
@@ -26,6 +43,5 @@ class SaloonDetails(View):
 
 
 
-def index(request):
-    return render(request, 'index.html')
+
 
