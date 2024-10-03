@@ -68,13 +68,18 @@ class AllCateringByCounty(View):
 
 
 class CateringDetails(View):
- '''Class to construct a view to display all details for a single catering object'''
- model_name = Catering
- template_name = 'Catering/catering_details.html'
- def get(self,request,pk):
-     catering_object = get_object_or_404(self.model_name,pk=pk)
-     context = {'catering':catering_object}
-     return render(request,self.template_name,context=context)
+    '''Class to sonstruct a view to display all details for a single caterig object'''
+    model_name = Catering
+    template_name = 'Catering/catering_details.html'
+
+    def get(self,request,pk):
+        catering = get_object_or_404(self.model_name,pk=pk)
+        context = {
+            'catering':catering
+        }
+        return render(request,template_name=self.template_name,context=context)
+
+
 
 
 
