@@ -1,7 +1,7 @@
 from django.db import models
 from django.shortcuts import reverse
 from multiselectfield import MultiSelectField
-from ..MainApp.models import CLientDetails
+from MainApp.models import CLientDetails
 
 
 class Music(CLientDetails):
@@ -22,6 +22,11 @@ class Music(CLientDetails):
         ('Latino', 'Latino'),
         ('Pop', 'Pop'),
         ('Rock', 'Rock'),
+        ('Manele', 'Manele'),
+        ('Lautareasca', 'Lautareasca'),
+        ('Retro', 'Retro'),
+        ('Mix','Mix'),
+        ('Live', 'Live')
     )
 
     muscial_styles_field = MultiSelectField(choices=musical_styles, default='')

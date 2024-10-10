@@ -47,7 +47,8 @@ INSTALLED_APPS = [
     'Music',
     'Catering',
     'FotoVideo',
-    'HairMakeUp'
+    'HairMakeUp',
+    'Wedding'
 ]
 
 MIDDLEWARE = [

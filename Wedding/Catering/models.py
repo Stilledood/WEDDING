@@ -1,7 +1,7 @@
 from django.db import models
 from django.shortcuts import render,reverse, redirect
 from multiselectfield import MultiSelectField
-from ..MainApp.models import CLientDetails
+from MainApp.models import CLientDetails
 
 
 class Cofetarie(CLientDetails):
@@ -12,8 +12,11 @@ class Cofetarie(CLientDetails):
         ('Candy Bar','Candy Bar'),
         ('Torturi personalizate','Torturi personalizate'),
         ('Livrare','Livrare'),
-
+        ('Machete', 'Machete'),
+        ('Fantana Ciocolata', 'Fantana Ciocolata'),
+        ('Fruit Bar', 'Fruit Bar'),
     )
+    meniu = models.FileField(upload_to='pdf-menus')
     servicii_cofetarie = MultiSelectField(choices=servicii,default='')
 
 
@@ -41,8 +44,9 @@ class Catering(CLientDetails):
         ('Livrare','Livrare'),
         ('Aranjare','Aranjare'),
         ('Personal Servire','Personal Servire'),
+        ('Fruit Bar', 'Fruit Bar'),
     )
-
+    meniu = models.FileField(upload_to='pdf-menus')
     servicii_catering = MultiSelectField(choices=servicii,default='')
 
     def __str__(self):

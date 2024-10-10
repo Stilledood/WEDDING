@@ -1,11 +1,13 @@
-import os
+
 from django.db import models
 from django.contrib.auth.models import User
 from phonenumber_field.modelfields import PhoneNumberField
-from django.utils.deconstruct import deconstructible
 from django.shortcuts import reverse,render,redirect
 from multiselectfield import MultiSelectField
-from ..MainApp.models import CLientDetails
+from MainApp.models import CLientDetails
+
+
+
 
 
 
@@ -13,8 +15,6 @@ from ..MainApp.models import CLientDetails
 class BallRoom(CLientDetails):
     """Class to construct a model for all ballrooms"""
 
-
-    minimum_guests_number = models.IntegerField()
     maximum_guests_number = models.IntegerField()
 
     facillities = (
@@ -24,27 +24,33 @@ class BallRoom(CLientDetails):
         ('Iluminat profesional', 'Iluminat profesional'),
         ('Ring de dans', 'Ring de dans'),
         ('Scenă pentru formație/muzicieni', 'Scenă pentru formație/muzicieni'),
-        ('Decoratiuni incluse', 'Decoratiuni incluse'),
         ('Baie Separata', 'Baie Separata'),
         ('Prezidiu', 'Prezidiu'),
-        ('Decor mese', 'Decor mese'),
         ('Wifi', 'Wifi'),
-        ('Decor scaune', 'Decor scaune'),
-        ('Meniuri pentru mese', 'Meniuri pentru mese'),
-        ('Vedere panoramica', 'Vedere panoramica'),
         ('Proximitea centrului orasului', 'Proximitatea centrului orasului'),
         ('Foto corner', 'Foto corner'),
+        ('Loc de relaxare', 'Loc de relaxare '),
+        ('Grup sanitar persoane cu dizabilitati', 'Grup sanitar persoane cu dizabilitati'),
+
+    )
+    event_facilities = (
+        ('Decoratiuni incluse', 'Decoratiuni incluse'),
+        ('Decor mese', 'Decor mese'),
+        ('Decor scaune', 'Decor scaune'),
+        ('Meniuri pentru mese', 'Meniuri pentru mese'),
         ('Casuta de dar', 'Casuta de dar'),
-        ('Locatie pe lac', 'Locatie pe lac'),
-        ('Vedere la lac', 'Vedere la lac'),
-        ('Locatie in padure', 'Locatie in padure'),
         ('Event planner', 'Event planner'),
         ('Stativ cu lista invitatilor', 'Stativ cu lista invitatilor'),
         ('Numere pentru mese', 'Numere pentru mese'),
-        ('Loc de relaxare', 'Loc de relaxare '),
+        ('Obiceiuri', 'Obiceiuri'),
+        ('Masina de fum', 'Masina de fum'),
+        ('Gheata Carbonica', 'Gheata Carbonica'),
+        ('Efecte pirotehnice', 'Efecte pirotehnice')
     )
+    event_facilities_selection = MultiSelectField(choices=event_facilities, default='')
     location_facilities = MultiSelectField(choices=facillities, default='')
     catering = (
+        ('Meniu Personalizat', 'Meniu Personalizat'),
         ('Bucatarie proprie', 'Bucatarie proprie'),
         ('Servicii de catering incluse sau opționale', 'Servicii de catering incluse sau opționale'),
         ('Meniuri speciale', 'Meniuri speciale'),
@@ -54,18 +60,19 @@ class BallRoom(CLientDetails):
         ('Shot Bar', 'Shot Bar'),
         ('Fruit Bar', 'Fruit Bar'),
         ('Cocktail Bar', 'Cocktail Bar'),
-        ('Obiceiuri', 'Obiceiuri'),
         ('Open bar', 'Open bar'),
         ('All inclusive', 'All inclusive'),
-        ('Cofetarie/Patiserie', 'Cofetarie/Patiserie '),
-        ('Drum asfaltat', 'Drum asfaltat'),
+        ('Cofetarie/Patiserie', 'Cofetarie/Patiserie'),
+
     )
     catering_options = MultiSelectField(choices=catering, default='')
     parking = (
         ('Parcare gratuita', 'Parcare gratuita'),
-        ('Parcare platita', 'Parcare platita'),
+        ('Parcare privata', 'Parcare privata'),
         ('Supreaveghere video', 'Supraveghere video'),
         ('Parcare iluminata', 'Parcare iluminata'),
+        ('Parcare interioara', 'Parcare interioara'),
+        ('Drum asfaltat', 'Drum asfaltat'),
     )
     parking_options = MultiSelectField(choices=parking, default='')
     zona_exterioara = (
@@ -77,7 +84,11 @@ class BallRoom(CLientDetails):
         ('Zona foto', 'Zona foto'),
         ('Fantana arteziana', 'Fantana arteziana'),
         ('Loc de joaca', 'Loc de joaca'),
-        ('Gradina amenajata pentru cereemonie', 'Gradina amenajata pentru ceremonie'),
+        ('Gradina amenajata pentru ceremonie', 'Gradina amenajata pentru ceremonie'),
+        ('Locatie pe lac', 'Locatie pe lac'),
+        ('Vedere la lac', 'Vedere la lac'),
+        ('Locatie in padure', 'Locatie in padure'),
+        ('Vedere panoramica', 'Vedere panoramica'),
     )
     zona_exterioara_options = MultiSelectField(choices=zona_exterioara, default='')
 
@@ -92,7 +103,8 @@ class BallRoom(CLientDetails):
     )
     siguranta_options = MultiSelectField(choices=siguranta, default='')
 
-
+    minim_menu_price = models.IntegerField(blank=True)
+    meniu = models.FileField(upload_to='pdf-menus')
 
     def __str__(self):
         return self.client_name
